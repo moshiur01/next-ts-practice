@@ -1,7 +1,8 @@
 "use client";
-import { Controller, useFormContext } from "react-hook-form";
+
 import { Input } from "antd";
-interface IInputObject {
+import { useFormContext, Controller } from "react-hook-form";
+interface IInput {
   name: string;
   type?: string;
   size?: "large" | "small";
@@ -11,6 +12,7 @@ interface IInputObject {
   validation?: object;
   label?: string;
 }
+
 const FormInput = ({
   name,
   type,
@@ -20,8 +22,9 @@ const FormInput = ({
   placeholder,
   validation,
   label,
-}: IInputObject) => {
+}: IInput) => {
   const { control } = useFormContext();
+
   return (
     <>
       {label ? label : null}
@@ -31,18 +34,18 @@ const FormInput = ({
         render={({ field }) =>
           type === "password" ? (
             <Input.Password
-              {...field}
               type={type}
               size={size}
               placeholder={placeholder}
+              {...field}
               value={value ? value : field.value}
             />
           ) : (
             <Input
-              {...field}
               type={type}
               size={size}
               placeholder={placeholder}
+              {...field}
               value={value ? value : field.value}
             />
           )

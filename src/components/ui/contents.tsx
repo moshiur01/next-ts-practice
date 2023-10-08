@@ -7,25 +7,28 @@ const { Content } = Layout;
 
 const Contents = ({ children }: { children: React.ReactNode }) => {
   const base = "admin";
-
   return (
-    <>
-      {/* header  */}
-      <Header></Header>
+    <Content
+      style={{
+        minHeight: "100vh",
+        color: "black",
+      }}
+    >
+      <Header />
       <UMBreadCrumb
         items={[
-          { label: `${base}`, link: `/${base}` },
-          { label: `student`, link: `/${base}/student` },
+          {
+            label: `${base}`,
+            link: `/${base}`,
+          },
+          {
+            label: "student",
+            link: `/${base}/student`,
+          },
         ]}
       />
-      <Content
-        style={{
-          minHeight: "100vh",
-        }}
-      >
-        {children}
-      </Content>
-    </>
+      {children}
+    </Content>
   );
 };
 

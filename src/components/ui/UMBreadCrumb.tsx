@@ -1,7 +1,6 @@
 import { Breadcrumb } from "antd";
-import { HomeOutlined } from "@ant-design/icons";
-
 import Link from "next/link";
+import { HomeOutlined } from "@ant-design/icons";
 
 const UMBreadCrumb = ({
   items,
@@ -11,7 +10,7 @@ const UMBreadCrumb = ({
     link: string;
   }[];
 }) => {
-  const BreadCrumbItems = [
+  const breadCrumbItems = [
     {
       title: (
         <Link href="/">
@@ -19,7 +18,6 @@ const UMBreadCrumb = ({
         </Link>
       ),
     },
-
     ...items.map((item) => {
       return {
         title: item.link ? (
@@ -30,7 +28,8 @@ const UMBreadCrumb = ({
       };
     }),
   ];
-  return <Breadcrumb items={BreadCrumbItems}></Breadcrumb>;
+
+  return <Breadcrumb items={breadCrumbItems}></Breadcrumb>;
 };
 
 export default UMBreadCrumb;
