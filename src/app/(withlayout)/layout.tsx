@@ -1,6 +1,7 @@
 "use client";
-import Contents from "@/components/ui/Contents";
-import SideBar from "@/components/ui/Sidebar";
+
+import Contents from "@/components/ui/contents";
+import SideBar from "@/components/ui/sidebar";
 import { isLoggedIn } from "@/services/auth.service";
 import { Layout } from "antd";
 import { useRouter } from "next/navigation";
@@ -11,6 +12,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  //*protected route
   useEffect(() => {
     if (!userLoggedIn) {
       router.push("/login");
