@@ -3,7 +3,7 @@ import React, { use, useEffect, useState } from "react";
 import { Button, message, Steps } from "antd";
 import { FormProvider, useForm } from "react-hook-form";
 import { getFromLocalStorage, setToLocalStorage } from "@/utils/local-storage";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 interface ISteps {
   title?: string;
