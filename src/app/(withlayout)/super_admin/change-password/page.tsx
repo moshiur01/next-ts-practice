@@ -1,7 +1,14 @@
-import React from "react";
+//type  for the form
+
+import ChangePasswordUI from "@/components/ui/ChnagePassowrd";
+
+type FormValues = {
+  oldPassword: string;
+  newPassword: string;
+};
 
 const ChangePassword = () => {
-  return <h1>this is for change password</h1>;
+  return <ChangePasswordUI />;
 };
 
 export default ChangePassword;
