@@ -1,13 +1,13 @@
-export interface IMeta{
-    limit: number;
-    page: number;
-    size: number;
+export interface IMeta {
+  limit: number;
+  page: number;
+  total: number;
 }
 
 export type ResponseSuccessType = {
-    data: any;
-    meta?:IMeta
-}
+  data: any;
+  meta?: IMeta;
+};
 
 export type IGenericErrorResponse = {
   statusCode: number;
@@ -20,4 +20,10 @@ export type IGenericErrorMessage = {
   message: string;
 };
 
-
+export type IDepartmentResponse = {
+  id: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
