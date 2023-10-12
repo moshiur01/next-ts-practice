@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useGetDepartmentsQuery } from "@/redux/api/departmentApi";
@@ -7,10 +7,12 @@ import {
   DeleteOutlined,
   EditOutlined,
   FundViewOutlined,
+  RedoOutlined,
 } from "@ant-design/icons";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
 import UMTable from "@/components/ui/UMTable";
 import { getUserInfo } from "@/services/auth.service";
+import ActionBar from "@/components/ui/ActionBar";
 
 const ManageUser = () => {
   const { role } = getUserInfo() as any;
@@ -23,12 +25,14 @@ const ManageUser = () => {
   const [page, setPage] = useState<number>(1);
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   //setting state values to the query
   query["size"] = size;
   query["page"] = page;
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
+  query["searchTerm"] = searchTerm;
 
   // get all department data
   const { data, isLoading } = useGetDepartmentsQuery({ ...query });
@@ -101,6 +105,14 @@ const ManageUser = () => {
     setSortOrder(order === "ascend" ? "asc" : "desc");
   };
 
+  //reset functionality
+
+  const resetFilters = () => {
+    setSearchTerm("");
+    setSortOrder("");
+    setSortBy("");
+  };
+
   return (
     <div style={{ margin: "0px 10px" }}>
       {/* for creating department  */}
@@ -112,12 +124,34 @@ const ManageUser = () => {
           },
         ]}
       />
-      <h1>This is manage Department</h1>
-      <Link href={`/${role}/department/create`}>
-        <Button type="primary" size={"large"}>
-          Create Department
-        </Button>
-      </Link>
+
+      <ActionBar title="Department List">
+        <Input
+          type="text"
+          size="large"
+          placeholder="Search"
+          style={{ width: "18%" }}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+          }}
+        />
+        <div>
+          {(!!sortBy || !!sortOrder || !!searchTerm) && (
+            <Button
+              onClick={resetFilters}
+              type="primary"
+              style={{ margin: "0px 5px" }}
+            >
+              <RedoOutlined />
+            </Button>
+          )}
+          <Link href={`/${role}/department/create`}>
+            <Button type="primary" size={"large"}>
+              Create Department
+            </Button>
+          </Link>
+        </div>
+      </ActionBar>
 
       {/* for showing department  */}
       <UMTable
