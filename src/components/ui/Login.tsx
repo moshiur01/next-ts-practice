@@ -58,7 +58,7 @@ const LoginPageUI = () => {
         <div style={{ width: "60%" }}>
           <Form submitHandler={onSubmit}>
             <div>
-              <FormInput name="id" type="email" size="large" label="User Id" />
+              <FormInput name="id" type="text" size="large" label="User Id" />
             </div>
             <div
               style={{
