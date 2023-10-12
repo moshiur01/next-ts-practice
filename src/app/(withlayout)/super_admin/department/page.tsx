@@ -3,18 +3,15 @@ import { Button, Input } from "antd";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useGetDepartmentsQuery } from "@/redux/api/departmentApi";
-import {
-  DeleteOutlined,
-  EditOutlined,
-  FundViewOutlined,
-  RedoOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, RedoOutlined } from "@ant-design/icons";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
 import UMTable from "@/components/ui/UMTable";
 import { getUserInfo } from "@/services/auth.service";
 import ActionBar from "@/components/ui/ActionBar";
+import { useDebounced } from "@/redux/hooks";
+import dayjs from "dayjs";
 
-const ManageUser = () => {
+const ManageDepartment = () => {
   const { role } = getUserInfo() as any;
 
   //query to fetched data
@@ -27,20 +24,29 @@ const ManageUser = () => {
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  //setting state values to the query
+  //set the state values to the query
   query["size"] = size;
   query["page"] = page;
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
-  query["searchTerm"] = searchTerm;
+  // query["searchTerm"] = searchTerm;
+
+  //set debounce data
+  const debouncedTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (!!debouncedTerm) {
+    query["searchTerm"] = debouncedTerm;
+  }
 
   // get all department data
   const { data, isLoading } = useGetDepartmentsQuery({ ...query });
   const departments = data?.departments;
   const meta = data?.meta;
 
-  // console.log(data);
-
+  //columns heading
   const columns = [
     {
       title: "Name",
@@ -50,6 +56,9 @@ const ManageUser = () => {
       title: "Created At",
       dataIndex: "createdAt",
       sorter: true,
+      render: function (data: any) {
+        return data && dayjs(data).format("MMM D, YYYY hh:mm A");
+      },
       // sorter: (a: any, b: any) => a.age - b.age,
     },
 
@@ -58,15 +67,6 @@ const ManageUser = () => {
       render: function (data: any) {
         return (
           <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-            <Button
-              onClick={() => {
-                console.log(data);
-              }}
-              type="primary"
-            >
-              <FundViewOutlined />
-            </Button>
-
             <Button
               onClick={() => {
                 console.log(data);
@@ -125,6 +125,7 @@ const ManageUser = () => {
         ]}
       />
 
+      {/* search and reset  bar  */}
       <ActionBar title="Department List">
         <Input
           type="text"
@@ -169,4 +170,4 @@ const ManageUser = () => {
   );
 };
 
-export default ManageUser;
+export default ManageDepartment;
