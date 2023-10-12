@@ -1,8 +1,11 @@
 "use client";
-import { Button, Input } from "antd";
+import { Button, Input, message } from "antd";
 import Link from "next/link";
 import React, { useState } from "react";
-import { useGetDepartmentsQuery } from "@/redux/api/departmentApi";
+import {
+  useDeleteDepartmentMutation,
+  useGetDepartmentsQuery,
+} from "@/redux/api/departmentApi";
 import { DeleteOutlined, EditOutlined, RedoOutlined } from "@ant-design/icons";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
 import UMTable from "@/components/ui/UMTable";
@@ -10,6 +13,8 @@ import { getUserInfo } from "@/services/auth.service";
 import ActionBar from "@/components/ui/ActionBar";
 import { useDebounced } from "@/redux/hooks";
 import dayjs from "dayjs";
+import Modal from "@/components/ui/Model";
+import ModalUI from "@/components/ui/Model";
 
 const ManageDepartment = () => {
   const { role } = getUserInfo() as any;
@@ -46,6 +51,20 @@ const ManageDepartment = () => {
   const departments = data?.departments;
   const meta = data?.meta;
 
+  //call the delete function
+  const [deleteDepartment] = useDeleteDepartmentMutation();
+
+  //handle delete department
+  const handleDeleteDepartment = async (data: any) => {
+    try {
+      await deleteDepartment(data?.id);
+      message.success("Department Deleted successfully");
+    } catch (err: any) {
+      // console.error(err.message);
+      message.error(err.message);
+    }
+  };
+
   //columns heading
   const columns = [
     {
@@ -67,17 +86,14 @@ const ManageDepartment = () => {
       render: function (data: any) {
         return (
           <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+            <Link href={`department/edit/${data?.id}`}>
+              <Button type="primary">
+                <EditOutlined />
+              </Button>
+            </Link>
             <Button
               onClick={() => {
-                console.log(data);
-              }}
-              type="primary"
-            >
-              <EditOutlined />
-            </Button>
-            <Button
-              onClick={() => {
-                console.log(data);
+                handleDeleteDepartment(data);
               }}
               type="primary"
               danger
