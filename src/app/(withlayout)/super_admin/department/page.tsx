@@ -1,3 +1,4 @@
+"use client";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
 import { getUserInfo } from "@/services/auth.service";
 import { Button } from "antd";
@@ -8,7 +9,7 @@ const ManageUser = () => {
   const { role } = getUserInfo() as any;
 
   return (
-    <div>
+    <div style={{ margin: "0px 10px" }}>
       <UMBreadCrumb
         items={[
           {
@@ -18,7 +19,7 @@ const ManageUser = () => {
         ]}
       />
       <h1>This is manage Department</h1>
-      <Link href={"/super_admin/department/create"}>
+      <Link href={`/${role}/department/create`}>
         <Button type="primary" size={"large"}>
           Create Department
         </Button>

@@ -1,3 +1,4 @@
+"use client";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
 import { getUserInfo } from "@/services/auth.service";
 import { Button } from "antd";
@@ -18,7 +19,7 @@ const ManageUser = () => {
         ]}
       />
       <h1>This is manage Faculty</h1>
-      <Link href={"/super_admin/faculty/create"}>
+      <Link href={`/${role}/manage-faculty/create`}>
         <Button type="primary" size={"large"}>
           Create Faculty
         </Button>

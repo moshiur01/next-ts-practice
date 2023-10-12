@@ -43,12 +43,18 @@ const ChangePasswordUI = () => {
 
       <Form submitHandler={onSubmit}>
         <div>
-          <FormInput
-            name="oldPassword"
-            label="Old Password"
-            type="password"
-            size="large"
-          />
+          <div
+            style={{
+              margin: "10px 0px",
+            }}
+          >
+            <FormInput
+              name="oldPassword"
+              label="Old Password"
+              type="password"
+              size="large"
+            />
+          </div>
           <FormInput
             name="newPassword"
             label="New Password"
