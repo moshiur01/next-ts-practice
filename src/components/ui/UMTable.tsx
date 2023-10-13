@@ -3,7 +3,7 @@ import { Table } from "antd";
 type UMTableProps = {
   loading?: boolean;
   columns: any;
-  dataSource: any;
+  dataSource?: any;
   pageSize?: number;
   totalPage?: number;
   showSizeChanger?: boolean;

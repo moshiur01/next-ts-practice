@@ -4,6 +4,8 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import type { UploadChangeParam } from "antd/es/upload";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
+import Image from "next/image";
+import { useFormContext } from "react-hook-form";
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   const reader = new FileReader();
@@ -23,9 +25,16 @@ const beforeUpload = (file: RcFile) => {
   return isJpgOrPng && isLt2M;
 };
 
-const UploadImage: React.FC = () => {
+type ImageUploadProps = {
+  name: string;
+};
+
+const UploadImage = ({ name }: ImageUploadProps) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
+
+  //to insert data to the form
+  const { setValue } = useFormContext();
 
   const handleChange: UploadProps["onChange"] = (
     info: UploadChangeParam<UploadFile>
@@ -35,6 +44,7 @@ const UploadImage: React.FC = () => {
       return;
     }
     if (info.file.status === "done") {
+      setValue(name, info.file.originFileObj);
       // Get this url from response in real world.
       getBase64(info.file.originFileObj as RcFile, (url) => {
         setLoading(false);
@@ -53,16 +63,22 @@ const UploadImage: React.FC = () => {
   return (
     <>
       <Upload
-        name="avatar"
+        name={name}
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+        action="/api/file"
         beforeUpload={beforeUpload}
         onChange={handleChange}
       >
         {imageUrl ? (
-          <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+          <Image
+            src={imageUrl}
+            alt="avatar"
+            style={{ width: "100%" }}
+            width={100}
+            height={100}
+          />
         ) : (
           uploadButton
         )}
